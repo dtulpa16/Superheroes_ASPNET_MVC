@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SuperheroesApp.Models
 {
@@ -16,5 +17,9 @@ namespace SuperheroesApp.Models
         public string SecondaryAbility { get; set;}
 
         public string Catchphrase { get; set; }
+
+        [ForeignKey("SuperType")]
+        public int SuperTypeId { get; set; }
+        public SuperType SuperType { get; set; }
     }
 }
