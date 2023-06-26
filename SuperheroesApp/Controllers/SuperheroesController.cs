@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SuperheroesApp.Data;
 using SuperheroesApp.Models;
 
@@ -73,18 +74,52 @@ namespace SuperheroesApp.Controllers
         // POST: SuperheroesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, [Bind("Id,Name,AlterEgo,Catchphrase,PrimaryAbility,SecondaryAbility")] Superhero hero)
         {
-            try
+            // Check if the ID in the URL matches the ID in the form data. If they don't match, return a NotFound result.
+            if (id != hero.Id)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+
+            // Check if the model state is valid - this checks if the submitted data is valid according to data annotations on the model.
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    var super = _context.Superheroes.Find(id);
+                    if (super == null)
+                    {
+                        return NotFound();
+                    }
+
+                    super.Name = hero.Name;
+                    super.AlterEgo = hero.AlterEgo;
+                    super.Catchphrase = hero.Catchphrase;
+                    super.PrimaryAbility = hero.PrimaryAbility;
+                    super.SecondaryAbility = hero.SecondaryAbility;
+
+                    _context.Superheroes.Update(super);
+                    _context.SaveChanges();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception er)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
             }
+
+            // If the model state is not valid, redisplay the form with the current values.
+            return View(hero);
         }
 
+        // This private method checks if a superhero exists given its ID. It does this by calling Any() on the Superheroes DbSet, 
+        // with a predicate that checks if any superheroes have the given ID.
+        private bool SuperheroExists(int id)
+        {
+            return _context.Superheroes.Any(e => e.Id == id);
+        }
         // GET: SuperheroesController/Delete/5
         public ActionResult Delete(int id)
         {
