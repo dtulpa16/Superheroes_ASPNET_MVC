@@ -19,7 +19,7 @@ namespace SuperheroesApp.Controllers
 
         public IActionResult Index()
         {
-            var superheroes = _context.Superheroes.ToList();
+            var superheroes = _context.Superheroes.Include(s=>s.SuperType).ToList();
             return View(superheroes);
         }
 
@@ -39,23 +39,36 @@ namespace SuperheroesApp.Controllers
         // POST: SuperheroesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Name,AlterEgo,Catchphrase,PrimaryAbility,SecondaryAbility")] Superhero hero)
+        public ActionResult Create([Bind("Name,AlterEgo,Catchphrase,PrimaryAbility,SecondaryAbility,SuperTypeId")] SuperheroViewModel viewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(hero); // _context is an instance of your database context class
+                    Superhero newHero = new Superhero
+                    {
+                        Name = viewModel.Name,
+                        AlterEgo = viewModel.AlterEgo,
+                        Catchphrase = viewModel.Catchphrase,
+                        PrimaryAbility = viewModel.PrimaryAbility,
+                        SecondaryAbility = viewModel.SecondaryAbility,
+                        SuperTypeId = viewModel.SuperTypeId
+                    };
+
+                    _context.Superheroes.Add(newHero);
                     _context.SaveChanges();
+
                     return RedirectToAction(nameof(Index));
                 }
             }
-            catch
+            catch(Exception er)
             {
                 // In the case of an error, you could add a ModelState error or log the exception
+                Console.WriteLine(er);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            return View(hero);
+            return View(viewModel);
+
         }
 
         // GET: SuperheroesController/Edit/5
@@ -75,7 +88,7 @@ namespace SuperheroesApp.Controllers
         // POST: SuperheroesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind("Id,Name,AlterEgo,Catchphrase,PrimaryAbility,SecondaryAbility")] Superhero hero)
+        public ActionResult Edit(int id, [Bind("Id,Name,AlterEgo,Catchphrase,PrimaryAbility,SecondaryAbility,SuperTypeId")] Superhero hero)
         {
             // Check if the ID in the URL matches the ID in the form data. If they don't match, return a NotFound result.
             if (id != hero.Id)
@@ -99,6 +112,7 @@ namespace SuperheroesApp.Controllers
                     super.Catchphrase = hero.Catchphrase;
                     super.PrimaryAbility = hero.PrimaryAbility;
                     super.SecondaryAbility = hero.SecondaryAbility;
+                    super.SuperType = _context.SuperType.Find(hero.SuperTypeId);
 
                     _context.Superheroes.Update(super);
                     _context.SaveChanges();

@@ -23,6 +23,9 @@
                 <th>
                         @Html.DisplayNameFor(model => model.SecondaryAbility)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SuperType)
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -43,6 +46,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => hero.SecondaryAbility)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => hero.SuperType.Type)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@hero.Id">Edit</a>

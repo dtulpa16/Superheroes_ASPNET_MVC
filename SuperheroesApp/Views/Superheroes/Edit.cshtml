@@ -39,6 +39,13 @@
                 <span asp-validation-for="Catchphrase" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="SuperTypeId" for="superTypeSelect">Type</label>
+                <select asp-for="SuperTypeId" class="form-control" id="superTypeSelect" name="SuperTypeId">
+                    <option value="1">Hero</option>
+                    <option value="2">Villain</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
