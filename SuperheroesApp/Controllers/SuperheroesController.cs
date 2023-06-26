@@ -26,7 +26,8 @@ namespace SuperheroesApp.Controllers
         // GET: SuperheroesController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var hero = _context.Superheroes.Find(id);
+            return View(hero);
         }
 
         // GET: SuperheroesController/Create
@@ -123,7 +124,8 @@ namespace SuperheroesApp.Controllers
         // GET: SuperheroesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var super = _context.Superheroes.Find(id);
+            return View(super);
         }
 
         // POST: SuperheroesController/Delete/5
@@ -133,6 +135,8 @@ namespace SuperheroesApp.Controllers
         {
             try
             {
+                var super = _context.Superheroes.Find(id);
+                _context.Superheroes.Remove(super);
                 return RedirectToAction(nameof(Index));
             }
             catch

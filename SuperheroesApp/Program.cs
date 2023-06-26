@@ -48,7 +48,7 @@ namespace SuperheroesApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Superheroes}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();
