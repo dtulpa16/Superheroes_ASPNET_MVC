@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SuperheroesApp.Models.Superhero>
+@{
+    ViewData["Title"] = "Hero Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Heroes</h1>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AlterEgo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Catchphrase)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PrimaryAbility)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SecondaryAbility)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SuperType)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hero in Model)
+            {
+                            <tr>
+                                <td>
+                        @Html.DisplayFor(modelItem => hero.Name)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => hero.AlterEgo)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => hero.Catchphrase)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => hero.PrimaryAbility)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => hero.SecondaryAbility)
+                                </td>
+                                <td>
+                        @Html.DisplayFor(modelItem => hero.SuperType.Type)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@hero.Id">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@hero.Id">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@hero.Id">Delete</a>
+                                    <a asp-action="Villain" asp-route-id="@hero.Id">Villain</a>
+
+                                </td>
+                            </tr>
+            }
+        </tbody>
+    </table>
+    <a class="rounded-5" id="home-tab2" type="button" aria-selected="true" asp-action="Create">Add Super</a>
+</div>

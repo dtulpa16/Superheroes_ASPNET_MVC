@@ -35,7 +35,16 @@ namespace SuperheroesApp.Controllers
         {
             return View();
         }
-
+        public ActionResult Villain()
+        {
+            var villains = _context.Superheroes.Where(s => s.SuperType.Type == "Villain");
+            return View(villains);
+        }
+        public ActionResult Hero(int id)
+        {
+            var heroes = _context.Superheroes.Where(s => s.SuperType.Type == "Hero");
+            return View(heroes);
+        }
         // POST: SuperheroesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
