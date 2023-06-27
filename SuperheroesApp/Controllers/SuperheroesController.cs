@@ -79,7 +79,10 @@ namespace SuperheroesApp.Controllers
             return View(viewModel);
 
         }
-
+        public ActionResult AddImage(int id)
+        {
+            return RedirectToAction(nameof(Index));
+        }
         // GET: SuperheroesController/Edit/5
         public ActionResult Edit(int id)
         {

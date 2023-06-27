@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using SuperheroesApp.Data;
 
 namespace SuperheroesApp
@@ -9,7 +11,6 @@ namespace SuperheroesApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 31));
@@ -26,6 +27,7 @@ namespace SuperheroesApp
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+            var env = app.Environment;
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -38,7 +40,11 @@ namespace SuperheroesApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
+                RequestPath = "/Images"
+            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

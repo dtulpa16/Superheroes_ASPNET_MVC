@@ -8,6 +8,7 @@ namespace SuperheroesApp.Data
     {
         public DbSet<Superhero> Superheroes { get; set; }
         public DbSet<SuperType> SuperType { get; set; }
+        public DbSet<Image> Image { get; set; }
 
         public DbSet<SuperheroViewModel> SuperHeroViewModel { get; set; }
 
