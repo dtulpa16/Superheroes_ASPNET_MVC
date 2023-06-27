@@ -182,9 +182,9 @@ namespace SuperheroesApp.Controllers
 
             // Add the Image object to the Image table in the database and save changes.
             _context.Image.Add(value);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return Json(new { fileName = value.Title });
         }
 
         [NonAction]

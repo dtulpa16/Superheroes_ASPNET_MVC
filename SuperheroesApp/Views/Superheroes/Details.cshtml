@@ -13,15 +13,17 @@
         data: formData,
         contentType: false, // set these to false to allow FormData to set its own values
         processData: false,
-        success: function () {
+        success: function (data) {
             alert('Image uploaded successfully.');
+            var imgSrc = "/Images/" + data.fileName;
+            $('.image-gallery').append('<img width="250" src="' + imgSrc + '" alt="Superhero Image" class="superhero-image"/>');
         },
         error: function (er) {
             alert('An error occurred while uploading the image.');
             console.log(er);
         }
+        });
     });
-});
 });
 </script>
 @{
