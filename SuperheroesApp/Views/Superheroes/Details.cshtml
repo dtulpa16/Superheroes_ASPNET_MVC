@@ -31,7 +31,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Superhero</h4>
+    <h4>Super Details</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -66,6 +66,15 @@
         </dd>
     </dl>
     <div>
+        @if (Model.Images != null)
+        {
+        <div class="image-gallery">
+                @foreach (var image in Model.Images)
+                {
+                    <img width="250" src="~/Images/@image.Title" alt="Superhero Image" class="superhero-image"/>
+                }
+        </div>
+        }
     <h2>Add Image</h2>
 
        <form id="uploadForm">

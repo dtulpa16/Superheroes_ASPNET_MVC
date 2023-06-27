@@ -27,7 +27,7 @@ namespace SuperheroesApp.Controllers
         // GET: SuperheroesController/Details/5
         public ActionResult Details(int id)
         {
-            var hero = _context.Superheroes.Find(id);
+            var hero = _context.Superheroes.Include(s=>s.Images).FirstOrDefault(s =>s.Id == id);
             return View(hero);
         }
 
