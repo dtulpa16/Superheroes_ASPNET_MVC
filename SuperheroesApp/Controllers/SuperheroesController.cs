@@ -177,13 +177,14 @@ namespace SuperheroesApp.Controllers
             // Save the image from the Image object to the Images folder.
             // The SaveImage method returns the name of the image, which is then assigned to the Title property.
             value.Title = await SaveImage(value.ImageFile);
+            value.Superhero = _context.Superheroes.Find(id);
+            value.SuperheroId = id;
 
             // Add the Image object to the Image table in the database and save changes.
             _context.Image.Add(value);
             _context.SaveChanges();
 
-            // Return a 201 Created status code and the Image object.
-            return StatusCode(201, value);
+            return RedirectToAction(nameof(Index));
         }
 
         [NonAction]
