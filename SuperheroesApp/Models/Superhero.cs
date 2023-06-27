@@ -21,5 +21,7 @@ namespace SuperheroesApp.Models
         [ForeignKey("SuperType")]
         public int SuperTypeId { get; set; }
         public SuperType SuperType { get; set; }
+
+        public virtual ICollection<Image> Images { get; set; }
     }
 }
